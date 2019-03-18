@@ -17,25 +17,25 @@ function init() {
     // Add event listener functions that get called whenever a user interacts
     // with the respective element.
 
-    document.querySelector('')
+    document.querySelector('#add-todo-button')
         .addEventListener('click', addTodo);
     
-    document.querySelector('')
+    document.querySelector('#remove-todo-button')
         .addEventListener('click', removeTodo);
 
-    document.querySelector('')
+    document.querySelector('#complete-todo-button')
         .addEventListener('click', completeTodo);
 
-    document.querySelector('')
+    document.querySelector('#clear-todos-button')
         .addEventListener('click', clearTodos);
 
-    document.querySelector('')
+    document.querySelector('#remove-completed-button')
         .addEventListener('click', removeCompleted);
 
-    document.querySelector('')
+    document.querySelector('#mark-uncomplete-button')
         .addEventListener('click', markUncomplete);
 
-    document.querySelector('')
+    document.querySelector('#clear-completed-button')
         .addEventListener('click', clearComplete);
 }
 
@@ -52,12 +52,15 @@ function addTodo(event) {
     event.preventDefault();
 
     // Grab value of todo input box.
-
+    let activity = document.querySelector('#new-todo').value
     // Put that value at the end of our list.
+    todos.push(activity);
+    console.log(todos);
 
     // Update our html.
-
+updateTodosOl(activity); 
     // Reset all input fields.
+    resetAllInputs();
 }
 
 function removeTodo(event) {
@@ -65,12 +68,22 @@ function removeTodo(event) {
     event.preventDefault();
 
     // Grab value that's in user's removal index input box.
+    const grab = document.querySelector('#todo-removal-index').value;
+    let index= parseInt(grab,10);
+    
+    // Adjust the index down by one because we're counting from 0.
+    index = index - 1;
 
-    // Remove todo at that index.
+    // Remove    at that index.
+    todos.splice(index, 1);
+    console.log(todos);
 
+
+    
     // Update our html.
-
+    updateTodosOl();
     // Reset all input fields.
+    resetAllInputs()
 }
 
 function completeTodo(event) {
@@ -78,12 +91,16 @@ function completeTodo(event) {
     event.preventDefault();
 
     // Grab value that's in user's todo completion index input box.
-
+    const complete = document.querySelector('#todo-complete-index').value;
+    let index = parseInt(complete, 10);
+    index = index - 1;
     // Move todo at that index to the completed list.
-
+    completed.push(todos.splice(index, 1));
     // Update our html.
-
+    updateCompletedOl()
+    updateTodosOl();
     // Reset all input fields.
+    resetAllInputs()
 }
 
 function clearTodos(event) {
@@ -91,21 +108,32 @@ function clearTodos(event) {
     event.preventDefault();
 
     // Clear all todos from the list.
-
+    while(todos.length > 0) {
+        todos.pop();
+        
+        
+    }
     // Update our html.
+    updateTodosOl() 
 }
 
 function removeCompleted(event) {
     // Make sure page doesn't reload on button press.
     event.preventDefault();
-
     // Grab value that's in user's removal index input box.
-
+    const removeComp = document.querySelector('#completed-removal-index').value;
+    let index = parseInt(removeComp, 10);
+    index = index - 1;
     // Remove todo at that index.
+    completed.pop(index, 1);
+    
+   
 
+    
     // Update our html.
-
+    updateCompletedOl()
     // Reset all input fields.
+    resetAllInputs()
 }
 
 function markUncomplete(event) {
@@ -113,12 +141,16 @@ function markUncomplete(event) {
     event.preventDefault();
 
     // Grab value that's in user's todo completion index input box.
-
+    const marking = document.querySelector('#mark-uncomplete-index').value;
+    let index = parseInt(marking, 10);
+    index = index - 1;
     // Move todo at that index to the completed list.
-
+    completed.push(todos.splice(index, 1));
     // Update our html.
-
+    updateTodosOl() ;
+    updateCompletedOl();
     // Reset all input fields.
+    resetAllInputs()
 }
 
 function clearComplete(event) {
@@ -126,10 +158,16 @@ function clearComplete(event) {
     event.preventDefault();
 
     // Clear all todos from the list.
-
+    
+    while(todos.length > 0) {
+        todos.pop();
+    }
+    // Remove todo at that index.
+    completed.pop();
     // Update our html.
+    updateTodosOl()
+    updateCompletedOl();
 }
-
 
 /*
 # ========================================================
